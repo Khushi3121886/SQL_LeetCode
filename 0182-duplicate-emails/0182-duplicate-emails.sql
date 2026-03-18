@@ -1,6 +1,9 @@
 # Write your MySQL query statement below
-select 
-email as Email 
-from Person
-group by email
-having count(email) > 1
+SELECT Email
+FROM (
+    SELECT 
+        email AS Email,
+        ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) AS rn
+    FROM Person
+) Email
+WHERE rn = 2;
